@@ -26,8 +26,12 @@ const config: DocsThemeConfig = {
     <meta name="title" content="ADAO Docs" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fff" />
-    <meta name="description" content="ADAO Community's documentation" />
-    <meta name="og:title" content="ADAO Community's documentation" />
+    <meta property="og:site_name" content="ADAO Docs"/>
+    <meta name="og:description" content="ADAO Community's documentation" />
+    <meta property="og:title" content="ADAO Docs" />
+    <meta name="og:title" content="ADAO Docs" />
+    <meta name="og:type" content="website" />
+    <meta name="og:url" content="https://docs.theadao.io" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@adaocommunity" />
     <meta name="twitter:creator" content="@adaocommunity" />
