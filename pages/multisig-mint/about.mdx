@@ -1,3 +1,7 @@
 ## Multisig minting
 
 ### [Repository](https://github.com/ADAOcommunity/adao-poc-nft)
+
+### This solution was made for ADAO Proof of community week mint
+It uses limiter to process submition and nft selection in single thread, so no double mints or collisions occur. For this reason, you should NOT use serverless environment like Vercel to host this solution, but rather use app instance/vps.
+For hight traffic you can use multiple instances of this app, but reserving in single thread with redis should be more performant.
