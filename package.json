@@ -1,7 +1,7 @@
 {
-  "name": "nextra-docs-template",
+  "name": "adao-docs",
   "version": "0.0.1",
-  "description": "Nextra docs template",
+  "description": "ADAO Community's documentation",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuding/nextra-docs-template.git"
+    "url": "git+https://github.com/adaocommunity/docs.git"
   },
   "author": "Shu Ding <g@shud.in>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/shuding/nextra-docs-template/issues"
+    "url": "https://github.com/adaocommunity/docs/issues"
   },
-  "homepage": "https://github.com/shuding/nextra-docs-template#readme",
+  "homepage": "https://github.com/adaocommunity/docs#readme",
   "dependencies": {
     "next": "^13.0.6",
     "nextra": "latest",
