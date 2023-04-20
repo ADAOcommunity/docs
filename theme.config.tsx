@@ -22,6 +22,7 @@ const config: DocsThemeConfig = {
   },
   head: <>
     <link rel="icon" href="/favicon.ico" />
+    <title>ADAO Docs</title>
     <meta name="title" content="ADAO Docs" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#fff" />
