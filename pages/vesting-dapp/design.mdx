@@ -15,9 +15,9 @@ This document outlines the design for a Vesting DApp on the Cardano blockchain, 
 ### Workflow
 
 1. The organization creates a new NFT minting policy by parameterizing an existing on-chain script, specifying allowed members and other constraints.
-2. Members deposit their tokens into the vesting contract, creating a utxo per user/address.
+2. The person (or people) representing organization deposit tokens for their members into the vesting contract, creating a utxo per member.
 3. The person representing the organization specifies the time of the full unlock and the slot when unlocking starts.
-4. The contract calculates the number of allowed tokens to be withdrawn based on the current slot and the specified vesting schedule.
+4. The contract can validate the number of allowed tokens to be withdrawn based on the current slot and the specified vesting schedule.
 5. Members can withdraw their vested tokens according to the vesting schedule.
 6. Organization representatives can overrule the vesting process, such as canceling someone's future tokens, if a majority decides on this action.
 
