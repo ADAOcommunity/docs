@@ -1,5 +1,6 @@
 {
   "about": "About",
-  "config": "Config",
-  "deploy": "Deploy"
+  "fractionalize": "Fractionalize",
+  "unlock": "Unlock",
+  "config": "Config"
 }
