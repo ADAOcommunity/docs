@@ -6,28 +6,55 @@
 
 This document outlines the design for a Vesting DApp on the Cardano blockchain, allowing organizations to create their own NFT minting policy and manage the vesting process for their members. The design also includes the ability for organization representatives to overrule vesting, such as canceling someone's future tokens, if a majority decides on this action.
 
-### Components
-
-1. **NFT Minting Policy**: Organizations can create their own NFT minting policy by parameterizing existing on-chain scripts. This contract allows minting only for people specified by the organization in the parameters and only one token per utxo being deposited into the vesting contract. This ensures easy tracking of vested tokens.
-
-2. **Vesting Contract**: The vesting contract will need one utxo per user/address with their vested tokens for each organization. The person depositing tokens into the contract, representing the organization, will specify the time of the full unlock and the slot when unlocking starts. The contract will then calculate the number of slots relative to the current slot to determine how many tokens are allowed to be withdrawn at the moment. This design supports linear vesting, but more complex vesting curves can be achieved by creating multiple utxos for each user.
-
 ### Workflow
 
-1. The organization creates a new NFT minting policy by parameterizing an existing on-chain script, specifying representatives and other constraints.
-2. The organization representatives deposit tokens into the vesting contract, creating at least one utxo per beneficiary.
-3. The organization representatives specify time of the full unlock and slot of next unlock, and as an optional, vesting span. If vesting span is defined, with any unlock, next unlock slot will have to be always set as: ```current unlock slot + span```.
-4. The contract can validate the number of allowed tokens to be withdrawn based on the current slot and the specified vesting schedule.
-5. Beneficiaries can withdraw their vested tokens according to the vesting schedule.
-6. Organization representatives can overrule the vesting process, such as canceling beneficiary's future tokens, if a majority decides on this action.
+1. **Create an Organization**: Define members by their addresses. A unique token with a specific policy ID is sent to each member to allow managing vesting schedules.
+
+2. **Mint Organization Tokens**: Tokens are minted and distributed among members post organization creation.
+
+3. **Create Vesting Schedules**: Set up vesting schedules by specifying beneficiaries, token distribution per period, and the total number of periods.
+
+4. **Claim Benefits**: Beneficiaries can view and claim their amounts through the dashboard.
+
+### How it works
+
+Anyone can establish a vesting schedule for any token. To do this, a UTxO (Unspent Transaction Output) is locked into the vesting contract with a specific datum structure attached, containing the following details:
+
+```typescript
+type Datum {
+  datum_id: ByteArray;             // ID to avoid double satisfaction
+  beneficiary: VerificationKeyHash;// Beneficiary's credentials
+  date: POSIXTime;                 // Start date in POSIX time (e.g., 1672843961000)
+  tokens_required: Int;            // Amount of tokens required for cancellation
+  org_token: value.PolicyId;       // Organization's token policy ID
+  beacon_token: value.PolicyId;    // Beacon token policy ID
+  num_periods: Int;                // Number of vesting periods
+  period_length: Int;              // Duration of each vesting period (in days)
+  amount_per_period: Int;          // Amount of tokens distributed per period
+  token_policy_id: ByteArray;      // Policy ID of the vested token
+  token_name: ByteArray;           // Name of the vested token
+}
+```
+
+This UTxO will also contain a "beacon token." All beacon tokens share the same policy, and their token name matches the organization policy ID, facilitating effortless tracking of the organization's UTxOs.
+
+### Multiple UTxOs
+Users can create various UTxOs to account for different tokens, beneficiaries, or varying periods and amounts.
+
+### Unlocking UTxO
+A UTxO may be unlocked if the claimable amount is sent to the beneficiary, and any remaining balance is returned to the contract with the identical datum.
+
+### Canceling Vesting Trenches
+Organization members holding the tokens can cancel vesting trenches. To do so, they must create a transaction including a minimum number of tokens specified in the datum of the locked UTxO. This mechanism also enables the retrieval of the minimum ADA that was locked in the UTxO.
+
 
 ### Considerations
 
 - This design allows for an easily trackable vesting process on the Cardano blockchain.
 - The linear vesting schedule can be extended to more complex vesting curves by creating multiple utxos for each user.
-- Allows both dynamic and pre-defined unlock schedules.
-- The vesting contract ensures that only allowed members can mint tokens according to the organization's NFT minting policy.
 - Organization representatives have the ability to overrule vesting decisions if a majority agrees.
+
+
 
 ### Future Enhancements
 
